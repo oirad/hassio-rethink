@@ -1,0 +1,46 @@
+name: "rethink – LG ThinQ Local Server"
+description: >
+  Fully local replacement for LG's ThinQ cloud. Re-provisions LG AC units to
+  connect to this server instead of LG's cloud, then bridges device state to
+  Home Assistant via MQTT auto-discovery. No internet required after setup.
+version: "1.0.7"
+slug: rethink
+url: "https://github.com/anszom/rethink"
+arch:
+  - aarch64
+  - amd64
+
+# Share the host network stack — required so AC units can reach back to the
+# HTTPS (4433) and MQTTS (8884) ports that rethink opens.
+host_network: true
+init: false
+
+# /data is the only directory that persists across add-on restarts in HAOS.
+# Certs, state, and the generated config.json all live here.
+map:
+  - data:rw
+
+options:
+  hostname: "rethink.lgthinq.com"
+
+schema:
+  hostname: str
+
+# Embeds the rethink management UI directly in the HA sidebar via ingress proxy.
+ingress: true
+ingress_port: 44401
+
+# Ports opened on the host (informational — host_network: true means they're
+# automatically accessible, but listing them here makes the intent explicit).
+ports:
+  443/tcp: 443
+  8885/tcp: 8885
+  1885/tcp: 1885
+  46030/tcp: 46030
+  47878/tcp: 47878
+ports_description:
+  443/tcp: "ThinQ2 HTTPS (provisioning)"
+  8885/tcp: "MQTTS – device connections"
+  1885/tcp: "MQTT plain – device connections"
+  46030/tcp: "ThinQ1 HTTPS"
+  47878/tcp: "ThinQ1 TLS TCP"
