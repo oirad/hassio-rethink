@@ -3,7 +3,7 @@ description: >
   Fully local replacement for LG's ThinQ cloud. Re-provisions LG AC units to
   connect to this server instead of LG's cloud, then bridges device state to
   Home Assistant via MQTT auto-discovery. No internet required after setup.
-version: "1.0.7"
+version: "1.0.8"
 slug: rethink
 url: "https://github.com/anszom/rethink"
 arch:
